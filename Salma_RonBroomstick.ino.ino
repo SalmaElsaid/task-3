@@ -44,8 +44,8 @@ previousTime = currentTime;        // Previous time is stored before the actual 
   GyroX = Wire.read() << 8 | Wire.read();
   GyroY = Wire.read() << 8 | Wire.read();
   
-  gyroAngleX = gyroAngleX + GyroX * elapsedTime; // deg/s * s = deg
-  gyroAngleY = gyroAngleY + GyroY * elapsedTime;
+  gyroAngleX +=  GyroX * elapsedTime; // deg/s * s = deg
+  gyroAngleY += GyroY * elapsedTime;
 
   roll = 0.96 * gyroAngleX + 0.04 * accAngleX;
   pitch = 0.96 * gyroAngleY + 0.04 * accAngleY;
@@ -68,8 +68,8 @@ while (x < 1000) {
     AccY = (Wire.read() << 8 | Wire.read()) / 16384.0 ;
     AccZ = (Wire.read() << 8 | Wire.read()) / 16384.0 ;
     // Sum all readings
-    AccErrorX = AccErrorX + ((atan((AccY) / sqrt(pow((AccX), 2) + pow((AccZ), 2))) * 180 / PI));
-    AccErrorY = AccErrorY + ((atan(-1 * (AccX) / sqrt(pow((AccY), 2) + pow((AccZ), 2))) * 180 / PI));
+    AccErrorX +=  ((atan((AccY) / sqrt(pow((AccX), 2) + pow((AccZ), 2))) * 180 / PI));
+    AccErrorY +=  ((atan(-1 * (AccX) / sqrt(pow((AccY), 2) + pow((AccZ), 2))) * 180 / PI));
     x++;
   }
   
@@ -83,8 +83,8 @@ while (x < 1000) {
     Wire.requestFrom(imu_adress, 4, true);
     GyroX = Wire.read() << 8 | Wire.read();
     GyroY = Wire.read() << 8 | Wire.read();
-    GyroErrorX = GyroErrorX + (GyroX / 131.0);
-    GyroErrorY = GyroErrorY + (GyroY / 131.0);
+    GyroErrorX +=  (GyroX / 131.0);
+    GyroErrorY +=  (GyroY / 131.0);
     
     x++;
   }
